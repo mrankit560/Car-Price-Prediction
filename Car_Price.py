@@ -11,17 +11,19 @@ st.write('''
 
 st.dataframe(cars_df.head(5))
 
-fuel_type = st.selectbox(
-    "select the fule type",
+col1, col2 = st.columns(2)
+
+fuel_type = col1.selectbox(
+    "Select the fule type",
     ("Diesel", "Petrol", "CNG", "Electric"))
 
-engine = st.slider("Set the engine size", 500, 5000, step=100)
+engine = col1.slider("Set the engine size", 500, 5000, step=100)
 
-transmission_type = st.selectbox(
+transmission_type = col2.selectbox(
     "Select the transmission type",
     ("Manual", "Automatic"))
-seats = st.selectbox(
-    "enter the number of seats",
+seats = col2.selectbox(
+    "Enter the number of seats",
     (4,5,7,9,11))
 
 
@@ -38,11 +40,13 @@ def model_pred(fuel_type, transmission_type, engine, seats):
     with open("car_pred", "rb") as file:
         reg_model = pickle.load(file)
         input_features = [[2018, 1, 4000, fuel_type, transmission_type, 19.70, engine, 86.30, seats]]
-        return reg_model.pred(input_features)
-              
-fuel_type = encode_dict["fuel_type"][fuel_type]
-transmission_type = encode_dict["transmission_type"][transmission_type]
+        return reg_model.predict(input_features)
 
-price = model_pred(fuel_type, transmission_type, engine, seats)
+if st.button("Predict Price"):
 
-st.text(f"The price of the car is {price} lakhs")
+    fuel_type = encode_dict["fuel_type"][fuel_type]
+    transmission_type = encode_dict["transmission_type"][transmission_type]
+
+    price = model_pred(fuel_type, transmission_type, engine, seats)
+
+    st.text(f"The price of the car is {price[0].round(2)} lakhs") #price variable return in list format, so use price[0]
