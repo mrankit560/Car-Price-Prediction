@@ -36,13 +36,13 @@ transmission_type = col1.selectbox(
 
 mileage = col2.slider(
     "Select the Mileage",
-    5, 120, step=1)
+    5, 120, value = 70,  step=1)
 
-engine = col1.slider("Set the engine size", 500, 5000, step=100)
+engine = col1.slider("Set the engine size", 500, 5000, value = 1800, step=100)
 
 max_power = col2.slider(
     "Select the Maximum Power",
-    5, 626, step=5)
+    5, 626,value =100, step=5)
 
 seats = col1.selectbox(
     "Enter the number of seats",
