@@ -9,7 +9,7 @@ st.write('''
     # Cars24 used for Car prediction        
  ''')
 
-st.dataframe(cars_df.head(5))
+st.dataframe(cars_df)
 
 col1, col2 = st.columns(2)
 
