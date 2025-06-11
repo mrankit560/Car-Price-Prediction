@@ -5,7 +5,7 @@ This is a **Car Price Prediction** web application built using **Streamlit**. Th
 ## Demo
 
 Access the live web app here:  
-[Link](https://car-price-prediction-tjkkgddgjc66um4aewkncg.streamlit.app/)
+[Clik Here](https://car-price-prediction-tjkkgddgjc66um4aewkncg.streamlit.app/)
 
 ---
 
