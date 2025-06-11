@@ -13,16 +13,38 @@ st.dataframe(cars_df.head(5))
 
 col1, col2 = st.columns(2)
 
+year = col2.slider(
+    "Select the Year",
+    1991, 2021, value=2015, step=1)
+
+seller_type = col1.selectbox(
+    "Select the Seller Type",
+    ("Dealer", "Individual", "Trustmark Dealer"))
+
+km_driven = col2.slider(
+    "Select the KM driven",
+    10000, 3800000, step=5000)
+
 fuel_type = col1.selectbox(
-    "Select the fule type",
+    "Select the fuel type",
     ("Diesel", "Petrol", "CNG", "Electric"))
+
+
+transmission_type = col1.selectbox(
+    "Select the transmission type",
+    ("Manual", "Automatic"))
+
+mileage = col2.slider(
+    "Select the Mileage",
+    5, 120, step=1)
 
 engine = col1.slider("Set the engine size", 500, 5000, step=100)
 
-transmission_type = col2.selectbox(
-    "Select the transmission type",
-    ("Manual", "Automatic"))
-seats = col2.selectbox(
+max_power = col2.slider(
+    "Select the Maximum Power",
+    5, 626, step=5)
+
+seats = col1.selectbox(
     "Enter the number of seats",
     (4,5,7,9,11))
 
@@ -34,19 +56,23 @@ encode_dict = {
     "transmission_type" : {"Manual" : 1, "Automatic" : 2} 
             }
 
-def model_pred(fuel_type, transmission_type, engine, seats):
+def model_pred(year,seller_type, km_driven, fuel_type,\
+                transmission_type, mileage, engine, max_power, seats):
 
     #load the model pickle
     with open("car_pred", "rb") as file:
         reg_model = pickle.load(file)
-        input_features = [[2018, 1, 4000, fuel_type, transmission_type, 19.70, engine, 86.30, seats]]
+        input_features = [[year,seller_type, km_driven, fuel_type,\
+                transmission_type, mileage, engine, max_power, seats]]
         return reg_model.predict(input_features)
 
 if st.button("Predict Price"):
 
     fuel_type = encode_dict["fuel_type"][fuel_type]
     transmission_type = encode_dict["transmission_type"][transmission_type]
+    seller_type = encode_dict["seller_type"][seller_type]
 
-    price = model_pred(fuel_type, transmission_type, engine, seats)
+    price = model_pred(year,seller_type, km_driven, fuel_type,\
+                transmission_type, mileage, engine, max_power, seats)
 
     st.text(f"The price of the car is {price[0].round(2)} lakhs") #price variable return in list format, so use price[0]
